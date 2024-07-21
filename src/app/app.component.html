@@ -1,0 +1,20 @@
+<ul>
+  <li>
+    <a routerLink="/home">Home</a>
+  </li>
+  <li>
+    <a routerLink="/resolver">Resolver</a>
+  </li>
+</ul>
+@if (isLoading$ | async) {
+  <div style="width: 200px; height: 200px; background-color: lightgray; margin: auto; color: black;">
+    Loading.....
+  </div>
+} 
+@else {
+  <div>
+    <!-- If you remove this div and leave only router-outlet within the else clause, the pages are displyed twice, when requested from the server.
+    Couldn't find anything in the official docs regarding this. -->
+    <router-outlet></router-outlet>
+  </div>
+}

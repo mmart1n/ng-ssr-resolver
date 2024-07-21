@@ -2,7 +2,7 @@ import { Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
-import { catchError, delay, EMPTY } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 
 export const routes: Routes = [
   { path: 'home', title: 'Начало', component: HomeComponent },
@@ -17,9 +17,8 @@ export const routes: Routes = [
 
         console.log('RESOLVER FUNCTION EXECUTED');
 
-        return httpClient.get('https://httpbin.org/delay/1').pipe(
-          delay(1000), // it seems that this delay causes the described issue
-          catchError(() => {
+        return httpClient.get('http://cataleya.bg/api/v1/dummy1/?delay=1').pipe(
+          catchError((e) => {
             router.navigate(['']);
             return EMPTY;
           })

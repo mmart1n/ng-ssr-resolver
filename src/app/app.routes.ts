@@ -1,8 +1,8 @@
-import { Router, Routes } from '@angular/router';
+import { RedirectCommand, Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError, EMPTY, of, throwError } from 'rxjs';
 
 export const routes: Routes = [
   { path: 'home', title: 'Начало', component: HomeComponent },
@@ -19,8 +19,7 @@ export const routes: Routes = [
 
         return httpClient.get('http://cataleya.bg/api/v1/dummy1/?delay=1').pipe(
           catchError((e) => {
-            router.navigate(['']);
-            return EMPTY;
+            return of(new RedirectCommand(router.parseUrl('/')));
           })
         );
       },

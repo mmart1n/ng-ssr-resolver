@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { afterNextRender, Component, inject } from '@angular/core';
-import { ResolveEnd, ResolveStart, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationCancel, ResolveEnd, ResolveStart, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter, map, Observable, of, tap } from 'rxjs';
 
 @Component({
@@ -18,9 +18,9 @@ export class AppComponent {
   constructor() {
     afterNextRender(() => {
       this.isLoading$ = this.#router.events.pipe(
-        filter((e) => e instanceof ResolveStart || e instanceof ResolveEnd),
+        filter((e) => e instanceof ResolveStart || e instanceof ResolveEnd || e instanceof NavigationCancel),
         tap((e) => {
-          console.log(`Resolver Event: ${e instanceof ResolveStart ? 'start' : 'end'}`)
+          console.log(`Resolver Event: ${e instanceof ResolveStart ? 'start' : e instanceof ResolveEnd ? 'end' : 'cancel'}`)
         }),
         map((e) => e instanceof ResolveStart)
       );
